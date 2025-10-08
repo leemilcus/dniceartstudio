@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dnice Art Studio | Showcasing Timeless Pencil Art.</title>
+
+  <!-- ✅ Font Awesome (Cloudflare CDN) -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
+  <style>
+    /* ==== Global Styles ==== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background-color: #f5f5f5;
+      color: #333;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    /* ==== Header ==== */
+    header {
+      background: #fff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+    }
+
+    .logo img {
+      height: 50px;
+    }
+
+    nav ul {
+      display: flex;
+      gap: 25px;
+      list-style: none;
+    }
+
+    nav ul li a {
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      color: #e63946;
+    }
+
+    .mobile-menu {
+      display: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* ==== Hero Section ==== */
+    .hero {
+      background: url('./images/17.jpeg') center/cover no-repeat;
+      color: #fff;
+      text-align: center;
+      padding: 120px 20px;
+      position: relative;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      margin-bottom: 25px;
+    }
+
+    .btn {
+      background-color: #e63946;
+      color: #fff;
+      padding: 10px 25px;
+      border-radius: 30px;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #c81d25;
+    }
+
+    /* ==== Section Titles ==== */
+    .section-title {
+      text-align: center;
+      margin: 60px 0 30px;
+    }
+
+    .section-title h2 {
+      font-size: 2rem;
+      color: #222;
+      margin-bottom: 10px;
+    }
+
+    .section-title p {
+      color: #777;
+      font-size: 1rem;
+    }
+
+    /* ==== Gallery ==== */
+    .filter-buttons {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .filter-btn {
+      border: none;
+      background-color: #ddd;
+      padding: 10px 20px;
+      margin: 5px;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: 0.3s;
+      font-weight: 500;
+    }
+
+    .filter-btn.active,
+    .filter-btn:hover {
+      background-color: #e63946;
+      color: #fff;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto 60px;
+      padding: 0 20px;
+    }
+
+    .gallery-item {
+      position: relative;
+      cursor: pointer;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .gallery-item:hover {
+      transform: scale(1.03);
+    }
+
+    .gallery-item-overlay {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      text-align: center;
+      padding: 10px;
+    }
+
+    /* ==== Modal ==== */
+    .modal {
+      display: none;
+      justify-content: center;
+      align-items: center;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+    }
+
+    .modal-content {
+      position: relative;
+      max-width: 90%;
+      max-height: 90%;
+    }
+
+    .modal-content img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background: #fff;
+      color: #000;
+      font-size: 1.5rem;
+      border-radius: 50%;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+
+    .modal-nav {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+    }
+
+    .modal-nav button {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 2rem;
+      cursor: pointer;
+      padding: 10px;
+    }
+
+    /* ==== Responsive ==== */
+    @media (max-width: 768px) {
+      nav ul {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        right: 20px;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        padding: 10px 0;
+      }
+
+      nav ul li {
+        padding: 10px 20px;
+      }
+
+      .mobile-menu {
+        display: block;
+      }
+    }
+
+  /* ==== About Section ==== */
+.about-section {
+  background-color: #000;
+  padding: 80px 20px;
+  color: #fff;
+}
+
+.about-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+
+.about-text {
+  flex: 1;
+  min-width: 300px;
+}
+
+.about-text h2 {
+  font-size: 2rem;
+  color:  rgb(255, 145, 0);;
+  margin-bottom: 15px;
+}
+
+.about-text p {
+  color: #ddd;
+  line-height: 1.7;
+  margin-bottom: 25px;
+}
+
+.social-icons a {
+  color: #fff;
+  background:  rgb(255, 145, 0);;
+  border-radius: 50%;
+  padding: 10px;
+  margin-right: 15px;
+  transition: all 0.3s ease;
+}
+
+.social-icons a:hover {
+  background: #fff;
+  color:  rgb(0, 0, 0);;
+}
+
+.about-images {
+  flex: 1;
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.about-images .img-wrapper {
+  flex: 1;
+  min-width: 220px;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+}
+
+.about-images img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  transition: transform 0.4s ease;
+}
+
+.about-images img:hover {
+  transform: scale(1.05);
+}
+
+/* ==== Call to Action Section ==== */
+.cta-section {
+  background-color:  rgb(255, 145, 0);;
+  color: #fff;
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.cta-section h2 {
+  font-size: 2rem;
+  margin-bottom: 15px;
+}
+
+.cta-section p {
+  max-width: 700px;
+  margin: 0 auto 30px auto;
+  line-height: 1.7;
+  font-size: 1.1rem;
+}
+
+.cta-section .btn {
+  background-color: #000;
+  color: #fff;
+  padding: 12px 30px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.cta-section .btn:hover {
+  background-color: #fff;
+  color: #000000;
+}
+
+/* ===== Footer ===== */
+.footer {
+  background-color: #fff;
+  color: #000;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+}
+
+.footer-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 60px 8%;
+  flex-wrap: wrap;
+  border-bottom: 1px solid #ddd;
+}
+
+.footer-column {
+  flex: 1;
+  min-width: 250px;
+  margin: 20px;
+}
+
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-column ul li {
+  margin: 10px 0;
+}
+
+.footer-column ul li a {
+  color: #000;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.footer-column ul li a:hover {
+  color: #e63946;
+}
+
+/* Center Column */
+.footer-column.center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-left: 2px solid #000;
+  border-right: 2px solid #000;
+  padding: 0 30px;
+}
+
+.footer-logo {
+  width: 130px;
+  margin-bottom: 20px;
+}
+
+.footer-socials a {
+  color: #000;
+  font-size: 1.3rem;
+  margin: 0 10px;
+  transition: color 0.3s ease;
+}
+
+.footer-socials a:hover {
+  color: #e63946;
+}
+
+.footer-links {
+  margin-top: 15px;
+  font-size: 0.9rem;
+}
+
+.footer-links a {
+  color: #000;
+  text-decoration: none;
+  margin: 0 5px;
+  transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: #e63946;
+}
+
+/* Right Column */
+.footer-column h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.footer-column p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* Bottom Strip */
+.footer-bottom {
+  background-color: #111;
+  color: #ccc;
+  text-align: center;
+  padding: 15px;
+  font-size: 0.9rem;
+}
+
+ .footer-bottom .brand-name {
+        color: red;           /* Initial color */
+        transition: color 0.3s ease; /* Smooth transition */
+    }
+
+    .footer-bottom .brand-name:hover {
+        color: white;         /* Color on hover */
+    }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .footer-main {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-column.center {
+    border: none;
+    padding: 20px 0;
+  }
+}
+
+
+/* Responsive */
+@media (max-width: 768px) {
+  .about-container {
+    flex-direction: column;
+  }
+
+  .about-text {
+    text-align: center;
+  }
+
+  .social-icons {
+    justify-content: center;
+  }
+
+  .about-images {
+    flex-direction: row;
+  }
+}
+
+.contact-section {
+    background-color: rgb(243, 238, 238);
+    color: rgb(0, 0, 0);
+    padding: 80px 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .contact-container {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 1100px;
+    width: 100%;
+    gap: 50px;
+  }
+
+  .contact-left, .contact-right {
+    flex: 1;
+    min-width: 300px;
+  }
+
+  .contact-left h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+
+  .contact-left h2 span {
+    color: rgb(255, 145, 0);
+  }
+
+  .contact-left p {
+    line-height: 1.6;
+    margin-bottom: 15px;
+  }
+
+  .contact-info p a {
+    color: rgb(104, 102, 102);
+    text-decoration: none;
+  }
+
+  .contact-info p a:hover {
+    color: white;
+  }
+
+  .social-icons {
+    margin-top: 20px;
+  }
+
+  .social-icons a {
+    color: white;
+    margin-right: 15px;
+    font-size: 1.3rem;
+    transition: color 0.3s ease;
+  }
+
+  .social-icons a:hover {
+    color: rgb(255, 145, 0);
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .contact-form input,
+  .contact-form textarea {
+    background: #ffffff;
+    border: 1px solid  rgb(255, 145, 0);;
+    color: rgb(0, 0, 0);
+    padding: 12px;
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+
+  .contact-form input:focus,
+  .contact-form textarea:focus {
+    outline: none;
+    border-color: white;
+  }
+
+  .contact-form button {
+    background: rgb(255, 145, 0);;
+    color: white;
+    border: none;
+    padding: 12px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .contact-form button:hover {
+    background: white;
+    color: rgb(0, 0, 0);
+  }
+
+  </style>
+</head>
+
+<body>
+  <!-- ===== Header ===== -->
+  <header>
+    <div class="header-container">
+      <a href="#" class="logo">
+        <!-- ✅ Use your local logo -->
+        <img src="./images/DAS - black.png" alt="Gallery Logo">
+      </a>
+
+      <nav>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="mobile-menu">
+        <i class="fas fa-bars"></i>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== Hero Section ===== -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Turning Your Memories into Timeless Pencil Art.</h1>
+      <p>Every face tells a story — let me capture yours with a hand-drawn portrait that speaks from the heart.
+Custom sketches from your photos or live sessions, crafted with care and emotion.</p>
+      <a href="https://wa.me/27719178864/" class="btn">Book Your Portrait</a>
+    </div>
+  </section>
+
+  <!-- ===== Gallery Section ===== -->
+  <section class="gallery-section" id="gallery">
+    <div class="section-title">
+      <h2>Our Gallery</h2>
+      <p>Browse through our diverse collection of artworks served to many of our amazing clients over the years.</p>
+    </div>
+
+    <div class="gallery-grid">
+      <!-- Gallery items will be generated by JavaScript -->
+    </div>
+  </section>
+
+  <!-- ===== Modal ===== -->
+  <div class="modal" id="imageModal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <img id="modalImage" src="" alt="" />
+      <div class="modal-nav">
+        <button id="prevBtn"><i class="fas fa-chevron-left"></i></button>
+        <button id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+      </div>
+    </div>
+  </div>
+  <!-- ===== About Section ===== -->
+<section class="about-section" id="about">
+  <div class="about-container">
+    <div class="about-text">
+      <h2>About the Artist</h2>
+      <p>
+        I'm a passionate portrait sketch artist who believes every face has a story worth drawing. 
+        Each piece I create is hand-drawn with attention to detail, emotion, and character — 
+        turning simple photographs into timeless works of art. 
+        Whether it's a gift, a memory, or self-expression, I aim to capture the essence of every person I draw.
+      </p>
+
+      <div class="social-icons">
+        <a href="https://www.instagram.com/dniceartstudio/" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.facebook.com/deenice.francis" target="_blank"><i class="fab fa-facebook"></i></a>
+      </div>
+    </div>
+
+    <div class="about-images">
+      <div class="img-wrapper">
+        <img src="./images/16.jpeg" alt="The artist at work">
+      </div>
+      <div class="img-wrapper">
+        <img src="./images/7.jpeg" alt="Portrait artist profile">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Call to Action / Special Offerings ===== -->
+<section class="cta-section">
+  <div class="cta-content">
+    <h2>Special Offerings</h2>
+    <p>Order a custom hand-drawn portrait today and get <strong>10% off</strong> your first sketch. Perfect for birthdays, anniversaries, or personal keepsakes.</p>
+    <a href="https://wa.me/27719178864" class="btn">Book Your Portrait</a>
+  </div>
+</section>
+
+<!-- CONTACT SECTION -->
+<section id="contact" class="contact-section">
+  <div class="contact-container">
+    <div class="contact-left">
+      <h2>Contact <span>Dnice Art Studio</span></h2>
+      <p>We’d love to hear from you! Whether it’s a booking, collaboration, or just to say hello — reach out and let’s create something special together.</p>
+
+      <div class="contact-info">
+        <p><strong>Email:</strong> <a href="mailto:bookings@dniceartstudio.co.za">bookings@dniceartstudio.co.za</a></p>
+        <p><strong>Phone:</strong> <a href="tel:+2773719178864">+27 73 71 917 8864</a></p>
+        <p><strong>Location:</strong> Cape Town, South Africa</p>
+      </div>
+    </div>
+
+    <div class="contact-right">
+      <form action="#" method="post" class="contact-form">
+        <input type="text" name="name" placeholder="Your Name" required>
+        <input type="email" name="email" placeholder="Your Email" required>
+        <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Footer ===== -->
+<footer class="footer">
+  <div class="footer-main">
+    <!-- Left Column -->
+    <div class="footer-column">
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#about">About </a></li>
+        <li><a href="#contact">Contact Us</a></li>
+      </ul>
+    </div>
+
+    <!-- Center Column -->
+    <div class="footer-column center">
+      <img src="./images/DAS - black.png" alt="Shailendra Visuals Logo" class="footer-logo">
+      
+      <div class="footer-socials">
+        <a href="https://www.facebook.com/dniceartstudio" target="_blank"><i class="fab fa-facebook"></i></a>
+        <a href="https://www.instagram.com/dniceartstudio/" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.tiktok.com/@dnice_art_studio" target="_blank"><i class="fab fa-tiktok"></i></a>
+        <a href="https://wa.me/27719178864" target="_blank"><i class="fab fa-whatsapp"></i></a>
+      </div>
+
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a> |
+        <a href="#">Cookie Consent</a> |
+        <a href="#">Ts & Cs</a>
+      </div>
+    </div>
+
+    <!-- Right Column -->
+    <div class="footer-column">
+      <h3>Stay in Touch</h3>
+      <p>
+        Keep up-to-date with all things <strong>Dnice Art Studio!</strong> <br> 
+        Join our community and never miss a moment!  
+        Follow us on all platforms <strong>@dniceartstudio</strong>.
+      </p>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>
+        Copyright © 2022 - 2025 Dnice Art Studio. All rights reserved | Artistically crafted by 
+        <a href="https://www.shailendralm.co.za">
+            <span class="brand-name">Shailendra Visuals.</span>
+        </a>
+    </p>
+</div>
+</footer>
+
+
+  <script>
+    // 🖼️ Local images setup
+    const galleryItems = [
+      { id: 1, title: "Commissioned artwork", description: "", image: "./images/1.jpeg" },
+      { id: 2, title: "Commissioned artwork", description: "", image: "./images/2.jpeg" },
+      { id: 3, title: "Commissioned artwork", description: "", image: "./images/3.jpeg" },
+      { id: 4, title: "Commissioned artwork", description: "", image: "./images/5.jpeg" },
+      { id: 5, title: "Commissioned artwork", description: "", image: "./images/6.jpeg" },
+      { id: 6, title: "Titled: Mandela Effect", description: "", image: "./images/14.jpeg" },
+      { id: 7, title: "Commissioned artwork", description: "", image: "./images/8.jpeg" },
+      { id: 8, title: "Commissioned artwork", description: "", image: "./images/9.jpeg" },
+      { id: 9, title: "Commissioned artwork", description: "", image: "./images/10.jpeg" },
+      { id: 10, title: "Titled: Stories In Smoke", description: "", image: "./images/11.jpeg" },
+      { id: 11, title: "Titled: Resilience", description: "", image: "./images/12.jpeg" },
+      { id: 12, title: "Commissioned artwork", description: "", image: "./images/13.jpeg" },
+      { id: 7, title: "Commissioned artwork", description: "", image: "./images/19.jpeg" },
+      { id: 8, title: "Commissioned artwork", description: "", image: "./images/20.jpeg" },
+      { id: 9, title: "Commissioned artwork", description: "", image: "./images/21.jpeg" },
+      { id: 10, title: "Commissioned artwork", description: "", image: "./images/22.jpeg" },
+      { id: 11, title: "Commissioned artwork", description: "", image: "./images/23.jpeg" },
+      { id: 12, title: "Commissioned artwork", description: "", image: "./images/24.jpeg" },
+      { id: 8, title: "Commissioned artwork", description: "", image: "./images/25.jpeg" },
+      { id: 9, title: "Commissioned artwork", description: "", image: "./images/26.jpeg" },
+      { id: 10, title: "Titled: The Eye That Sees All, Knows All", description: "", image: "./images/27.jpeg" },
+      { id: 9, title: "self portrait", description: "", image: "./images/18.jpeg" },
+    ];
+
+    const galleryGrid = document.querySelector('.gallery-grid');
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const modal = document.getElementById('imageModal');
+    const modalImage = document.getElementById('modalImage');
+    const closeModal = document.querySelector('.close-modal');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const mobileMenu = document.querySelector('.mobile-menu');
+    const nav = document.querySelector('nav ul');
+
+    function initGallery() {
+      displayGalleryItems(galleryItems);
+      filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          filterButtons.forEach(btn => btn.classList.remove('active'));
+          button.classList.add('active');
+          const filter = button.getAttribute('data-filter');
+          displayGalleryItems(
+            filter === 'all' ? galleryItems : galleryItems.filter(item => item.category === filter)
+          );
+        });
+      });
+      mobileMenu.addEventListener('click', () => {
+        nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+      });
+    }
+
+    function displayGalleryItems(items) {
+      galleryGrid.innerHTML = '';
+      items.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'gallery-item';
+        div.innerHTML = `
+          <img src="${item.image}" alt="${item.title}">
+          <div class="gallery-item-overlay">
+            <h3>${item.title}</h3>
+            <p>${item.description}</p>
+          </div>
+        `;
+        div.addEventListener('click', () => openModal(item));
+        galleryGrid.appendChild(div);
+      });
+    }
+
+    let currentItemIndex = 0;
+    function openModal(item) {
+      modal.style.display = 'flex';
+      modalImage.src = item.image;
+      modalImage.alt = item.title;
+      currentItemIndex = galleryItems.findIndex(i => i.id === item.id);
+    }
+    function closeModalFunc() { modal.style.display = 'none'; }
+    function showNextItem() {
+      currentItemIndex = (currentItemIndex + 1) % galleryItems.length;
+      modalImage.src = galleryItems[currentItemIndex].image;
+    }
+    function showPrevItem() {
+      currentItemIndex = (currentItemIndex - 1 + galleryItems.length) % galleryItems.length;
+      modalImage.src = galleryItems[currentItemIndex].image;
+    }
+
+    closeModal.addEventListener('click', closeModalFunc);
+    nextBtn.addEventListener('click', showNextItem);
+    prevBtn.addEventListener('click', showPrevItem);
+    modal.addEventListener('click', e => { if (e.target === modal) closeModalFunc(); });
+    document.addEventListener('keydown', e => {
+      if (modal.style.display === 'flex') {
+        if (e.key === 'Escape') closeModalFunc();
+        if (e.key === 'ArrowRight') showNextItem();
+        if (e.key === 'ArrowLeft') showPrevItem();
+      }
+    });
+    document.addEventListener('DOMContentLoaded', initGallery);
+  </script>
+</body>
+</html>
